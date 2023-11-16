@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "github.com/s-l33/train-ticket-app/api/pb";
+
+service TrainTicketApp {
+  rpc PurchaseTicket(PurchaseTicketRequest) returns (PurchaseTicketResponse);
+  rpc GetReceiptDetails(GetReceiptDetailsRequest) returns (GetReceiptDetailsResponse);
+  rpc GetUsersBySection(GetUsersBySectionRequest) returns (GetUsersBySectionResponse);
+  rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse);
+  rpc ModifyUserSeat(ModifyUserSeatRequest) returns (ModifyUserSeatResponse);
+}
+
+message PurchaseTicketRequest {
+  string from = 1;
+  string to = 2;
+  User user = 3;
+}
+
+message PurchaseTicketResponse {
+  Receipt receipt = 1;
+}
+
+message Receipt {
+  string id = 1;
+  string from = 2;
+  string to = 3;
+  User user = 4;
+  float price = 5;
+  string section = 6;
+}
+
+message User {
+  optional string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string email = 4;
+}
+
+message GetReceiptDetailsRequest {
+  string receiptID = 1;
+}
+
+message GetReceiptDetailsResponse {
+  Receipt receipt = 1;
+}
+
+message GetUsersBySectionRequest {
+  string section = 1;
+}
+
+message GetUsersBySectionResponse {
+  repeated User users = 1;
+}
+
+message RemoveUserRequest {
+  string userID = 1;
+}
+
+message RemoveUserResponse {}
+
+message ModifyUserSeatRequest {
+  string receiptID = 1;
+  string newSection = 2;
+}
+
+message ModifyUserSeatResponse {
+  string oldSection = 1;
+  string newSection = 2;
+}
